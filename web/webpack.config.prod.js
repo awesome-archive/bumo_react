@@ -4,8 +4,7 @@ import ExtractTextPlugin from "extract-text-webpack-plugin";
 import autoprefixer from "autoprefixer";
 import FileSystem from "fs";
 
-//const publicPath = 'https://dn-mono-front.qbox.me/';
-const publicPath = '';
+const publicPath = 'https://static.6koi.com/';
 
 const GLOBALS = {
   'process.env.NODE_ENV': JSON.stringify('production'),
@@ -23,7 +22,13 @@ const getEntry = function () {
     'classnames',
     'react-masonry-component',
     'react-dom',
-    'react-dropzone'];
+    'react-dropzone',
+    'react-router',
+    'redux-form',
+    'immutable',
+    'lodash',
+    'auth0-lock',
+  ];
 
   return entry;
 };
@@ -36,7 +41,7 @@ export default {
   target: 'web', // necessary per https://webpack.github.io/docs/testing.html#compile-and-test
   output: {
     path: __dirname + '/dist', // Note: Physical files are only output by the production build task `npm run build`.
-    publicPath: '/',
+    publicPath: publicPath,
     filename: 'bumo.bundle.[name].[chunkhash].js'
   },
   plugins: [
@@ -56,9 +61,9 @@ export default {
             const html = FileSystem.readFileSync(path.join(__dirname, htmlFileName), "utf8");
 
             const htmlOutput = html
-              .replace( /bumo\.vendors\.js/i, publicPath + stats.assetsByChunkName.vendors[0])
-              .replace( /bumo\.bundle\.app\.js/i, publicPath + stats.assetsByChunkName.app[0])
-              .replace( /bumo\.styles\.css/i, publicPath + stats.assetsByChunkName.app[1])
+              .replace( /\/bumo\.vendors\.js/i, publicPath + stats.assetsByChunkName.vendors[0])
+              .replace( /\/bumo\.bundle\.app\.js/i, publicPath + stats.assetsByChunkName.app[0])
+              .replace( /\/bumo\.styles\.css/i, publicPath + stats.assetsByChunkName.app[1])
               ;
             FileSystem.writeFileSync( path.join(__dirname, htmlFileName), htmlOutput);
           }
